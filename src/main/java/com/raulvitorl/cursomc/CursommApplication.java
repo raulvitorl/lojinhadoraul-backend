@@ -13,6 +13,7 @@ import com.raulvitorl.cursomc.domain.Cidade;
 import com.raulvitorl.cursomc.domain.Cliente;
 import com.raulvitorl.cursomc.domain.Endereco;
 import com.raulvitorl.cursomc.domain.Estado;
+import com.raulvitorl.cursomc.domain.ItemPedido;
 import com.raulvitorl.cursomc.domain.Pagamento;
 import com.raulvitorl.cursomc.domain.PagamentoComBoleto;
 import com.raulvitorl.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.raulvitorl.cursomc.repositories.CidadeRepository;
 import com.raulvitorl.cursomc.repositories.ClienteRepository;
 import com.raulvitorl.cursomc.repositories.EnderecoRepository;
 import com.raulvitorl.cursomc.repositories.EstadoRepository;
+import com.raulvitorl.cursomc.repositories.ItemPedidoRepository;
 import com.raulvitorl.cursomc.repositories.PagamentoRepository;
 import com.raulvitorl.cursomc.repositories.PedidoRepository;
 import com.raulvitorl.cursomc.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CursommApplication implements CommandLineRunner{
 	PedidoRepository pedidoRepository;
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(CursommApplication.class, args);
 	}
@@ -85,6 +89,18 @@ public class CursommApplication implements CommandLineRunner{
 		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/101/2017 00:00"), null);
 		ped2.setPagamento(pagto2);
 		
+		ItemPedido ip1 = new ItemPedido(ped1,p1,0.00,1,2.000);
+		ItemPedido ip2 = new ItemPedido(ped1,p3,0.00,2,80.00);
+		ItemPedido ip3 = new ItemPedido(ped2,p2,100.00,1,800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		
 		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
 				
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
@@ -110,7 +126,7 @@ public class CursommApplication implements CommandLineRunner{
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
-	
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 		
 
 		
