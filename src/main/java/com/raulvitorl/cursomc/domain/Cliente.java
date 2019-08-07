@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.raulvitorl.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -35,6 +36,7 @@ static final long serialVersionUID = 1L;
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "cliente")
 	List<Pedido> pedidos = new ArrayList<>();
 	
