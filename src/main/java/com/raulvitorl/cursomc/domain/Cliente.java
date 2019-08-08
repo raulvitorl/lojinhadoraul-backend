@@ -46,7 +46,8 @@ static final long serialVersionUID = 1L;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCod();
+		
+		this.tipo = (tipo==null)? null : tipo.getCod();
 	}
 
 	
