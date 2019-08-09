@@ -26,6 +26,8 @@ static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
+	
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
