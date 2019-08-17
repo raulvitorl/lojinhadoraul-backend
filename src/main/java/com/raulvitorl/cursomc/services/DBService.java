@@ -84,7 +84,7 @@ public class DBService {
 		Cidade c2 = new Cidade(null,"São Paulo",est2);
 		Cidade c3 = new Cidade(null,"Campinas",est2);
 		
-		Cliente cli1 = new 	Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new 	Cliente(null, "Raina Maria Macedo Maia", "rainamacedoo@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("(68) 9 9245-4310","(68) 9 9959-0932"));
 		
 		Endereco e1 = new Endereco(null,"Rua Flores","300","Apto 303","Jardim","38220834",cli1,c1);
