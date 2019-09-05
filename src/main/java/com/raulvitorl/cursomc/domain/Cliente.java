@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,47 +20,45 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.raulvitorl.cursomc.domain.enums.TipoCliente;
 
 @Entity
-public class Cliente implements Serializable{
-static final long serialVersionUID = 1L;
+public class Cliente implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	
-	
+	@Column(unique=true)
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
 	
-	@OneToMany(mappedBy = "cliente",cascade = CascadeType.ALL)
+	@JsonIgnore
+	private String senha;
+	
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@ElementCollection
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	List<Pedido> pedidos = new ArrayList<>();
 	
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	@JsonIgnore
+	@OneToMany(mappedBy="cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
+	public Cliente() {
+	}
+
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		
-		this.tipo = (tipo==null)? null : tipo.getCod();
+		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.senha = senha;
 	}
-
-	
-	
-	public Cliente() {
-		super();
-	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -101,6 +100,14 @@ static final long serialVersionUID = 1L;
 		this.tipo = tipo.getCod();
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+	
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -121,16 +128,9 @@ static final long serialVersionUID = 1L;
 		return pedidos;
 	}
 
-
-
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
-	
-	
-	
-
-
 
 	@Override
 	public int hashCode() {
@@ -139,8 +139,6 @@ static final long serialVersionUID = 1L;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -157,10 +155,6 @@ static final long serialVersionUID = 1L;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
+	}	
 
-
-
-	
-	
 }
